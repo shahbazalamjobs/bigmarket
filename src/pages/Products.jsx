@@ -1,7 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getProducts } from "../features/products/productsSlice";
+import {
+  fetchCatalog,
+  getCategories,
+} from "../features/products/productsSlice";
 
 import SearchBar from "../components/products/SearchBar";
 import ProductFilters from "../components/products/ProductFilters";
@@ -14,20 +17,18 @@ import RatingFilter from "../components/products/RatingFilter";
 function Products() {
   const dispatch = useDispatch();
 
-  const {
-    products,
-    sortBy,
-    minPrice,
-    maxPrice,
-    minRating,
-    isLoading,
-    isSearching,
-    error,
-  } = useSelector((state) => state.products);
+  const { categories } = useSelector((state) => state.products);
+
+  const { products, sortBy, minPrice, maxPrice, minRating, isLoading, error } =
+    useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+    if (categories.length === 0) {
+      dispatch(getCategories());
+    }
+
+    dispatch(fetchCatalog());
+  }, [dispatch, categories.length]);
 
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
@@ -96,12 +97,6 @@ function Products() {
 
       {/* Search */}
       <SearchBar />
-
-      {isSearching && (
-        <div className="rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-600">
-          Loading products...
-        </div>
-      )}
 
       {error && <p className="text-red-600">{error}</p>}
 

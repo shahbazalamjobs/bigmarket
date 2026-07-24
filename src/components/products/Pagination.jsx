@@ -1,23 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { getProducts } from "../../features/products/productsSlice";
+import {
+  fetchCatalog,
+  setCurrentPage,
+} from "../../features/products/productsSlice";
 
 function Pagination() {
   const dispatch = useDispatch();
 
-  const {
-    currentPage,
-    totalProducts,
-    limit,
-    isLoading,
-  } = useSelector((state) => state.products);
+  const { currentPage, totalProducts, limit, isLoading } = useSelector(
+    (state) => state.products,
+  );
 
   const totalPages = Math.ceil(totalProducts / limit);
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
 
-    dispatch(getProducts(page));
+    dispatch(setCurrentPage(page));
+
+    dispatch(fetchCatalog());
 
     window.scrollTo({
       top: 0,

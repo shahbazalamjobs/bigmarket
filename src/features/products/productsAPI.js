@@ -1,104 +1,69 @@
-import axiosInstance from "../../api/axios";
+import axiosInstance from "@/api/axios";
 
-/**
- * Fetch all products
- */
-export const fetchProducts = async (
+// Fetch products (paginated)
+export const fetchProducts = async (page = 1, limit = 12) => {
+  const skip = (page - 1) * limit;
+
+  const response = await axiosInstance.get("/products", {
+    params: {
+      limit,
+      skip,
+    },
+  });
+
+  return response.data;
+};
+
+// Fetch single product
+export const fetchProductById = async (id) => {
+  const response = await axiosInstance.get(`/products/${id}`);
+
+  return response.data;
+};
+
+// Fetch categories
+export const fetchCategories = async () => {
+  const response = await axiosInstance.get("/products/categories");
+
+  return response.data;
+};
+
+// Search products (paginated)
+export const searchProducts = async (
+  query,
   page = 1,
   limit = 12,
 ) => {
-  try {
-    const skip = (page - 1) * limit;
+  const skip = (page - 1) * limit;
 
-    const response = await axiosInstance.get("/products", {
+  const response = await axiosInstance.get("/products/search", {
+    params: {
+      q: query,
+      limit,
+      skip,
+    },
+  });
+
+  return response.data;
+};
+
+// Products by category (paginated)
+export const fetchProductsByCategory = async (
+  category,
+  page = 1,
+  limit = 12,
+) => {
+  const skip = (page - 1) * limit;
+
+  const response = await axiosInstance.get(
+    `/products/category/${category}`,
+    {
       params: {
         limit,
         skip,
       },
-    });
+    },
+  );
 
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        message: "Failed to fetch products",
-      }
-    );
-  }
-};
-
-/**
- * Fetch single product by ID
- */
-export const fetchProductById = async (id) => {
-  try {
-    const response = await axiosInstance.get(`/products/${id}`);
-
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        message: "Failed to fetch product",
-      }
-    );
-  }
-};
-
-/**
- * Fetch all categories
- */
-export const fetchCategories = async () => {
-  try {
-    const response = await axiosInstance.get(
-      "/products/categories"
-    );
-
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        message: "Failed to fetch categories",
-      }
-    );
-  }
-};
-
-/**
- * Search products
- */
-export const searchProducts = async (query) => {
-  try {
-    const response = await axiosInstance.get(
-      `/products/search?q=${query}`
-    );
-
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        message: "Search failed",
-      }
-    );
-  }
-};
-
-/**
- * Fetch products by category
- */
-export const fetchProductsByCategory = async (
-  category
-) => {
-  try {
-    const response = await axiosInstance.get(
-      `/products/category/${category}`
-    );
-
-    return response.data;
-  } catch (error) {
-    throw (
-      error.response?.data || {
-        message: "Failed to fetch category products",
-      }
-    );
-  }
+  return response.data;
 };

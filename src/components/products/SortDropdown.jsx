@@ -2,27 +2,40 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setSortBy } from "../../features/products/productsSlice";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
 function SortDropdown() {
   const dispatch = useDispatch();
 
   const { sortBy } = useSelector((state) => state.products);
 
   return (
-    <select
+    <Select
       value={sortBy}
-      onChange={(e) => dispatch(setSortBy(e.target.value))}
-      className="rounded-lg border px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+      onValueChange={(value) => dispatch(setSortBy(value))}
     >
-      <option value="default">Default</option>
+      <SelectTrigger className="w-[220px]">
+        <SelectValue placeholder="Sort By" />
+      </SelectTrigger>
 
-      <option value="price-asc">Price: Low → High</option>
+      <SelectContent>
+        <SelectItem value="default">Default</SelectItem>
 
-      <option value="price-desc">Price: High → Low</option>
+        <SelectItem value="price-asc">Price: Low → High</SelectItem>
 
-      <option value="rating">Highest Rating</option>
+        <SelectItem value="price-desc">Price: High → Low</SelectItem>
 
-      <option value="discount">Highest Discount</option>
-    </select>
+        <SelectItem value="rating">Highest Rating</SelectItem>
+
+        <SelectItem value="discount">Highest Discount</SelectItem>
+      </SelectContent>
+    </Select>
   );
 }
 

@@ -27,33 +27,9 @@ const initialState = {
   totalProducts: 0,
 
   isLoading: false,
-  isSearching: false,
 
   error: null,
 };
-
-// Fetch all products
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-
-  async (page = 1, thunkAPI) => {
-    try {
-      const limit = thunkAPI.getState().products.limit;
-
-      const data = await fetchProducts(page, limit);
-
-      return {
-        products: data.products,
-        total: data.total,
-        page,
-      };
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.message || "Failed to fetch products",
-      );
-    }
-  },
-);
 
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
@@ -66,6 +42,59 @@ export const getAllProducts = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.message || "Failed to fetch products",
+      );
+    }
+  },
+);
+
+export const fetchCatalog = createAsyncThunk(
+  "products/fetchCatalog",
+
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState().products;
+
+      const { currentPage, limit, searchQuery, selectedCategory } = state;
+
+      let data;
+
+      // SEARCH
+      if (searchQuery.trim() !== "") {
+        data = await searchProductsAPI(searchQuery, currentPage, limit);
+
+        return {
+          products: data.products,
+          total: data.total,
+          page: currentPage,
+        };
+      }
+
+      // CATEGORY
+      if (selectedCategory !== "all") {
+        data = await fetchProductsByCategory(
+          selectedCategory,
+          currentPage,
+          limit,
+        );
+
+        return {
+          products: data.products,
+          total: data.total,
+          page: currentPage,
+        };
+      }
+
+      // NORMAL PAGINATION
+      data = await fetchProducts(currentPage, limit);
+
+      return {
+        products: data.products,
+        total: data.total,
+        page: currentPage,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to fetch catalog",
       );
     }
   },
@@ -103,41 +132,16 @@ export const getCategories = createAsyncThunk(
   },
 );
 
-// Fetch products by category
-export const getProductsByCategory = createAsyncThunk(
-  "products/getProductsByCategory",
-  async (category, thunkAPI) => {
-    try {
-      const data = await fetchProductsByCategory(category);
-
-      return data.products;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.message || "Failed to fetch category products",
-      );
-    }
-  },
-);
-
-export const searchProducts = createAsyncThunk(
-  "products/searchProducts",
-  async (query, thunkAPI) => {
-    try {
-      const data = await searchProductsAPI(query);
-
-      return data.products;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message || "Search failed");
-    }
-  },
-);
-
 const productsSlice = createSlice({
   name: "products",
 
   initialState,
 
   reducers: {
+    setSearchQuery(state, action) {
+      state.searchQuery = action.payload;
+    },
+
     setSelectedCategory(state, action) {
       state.selectedCategory = action.payload;
     },
@@ -158,6 +162,10 @@ const productsSlice = createSlice({
       state.minRating = action.payload;
     },
 
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
+
     clearProducts(state) {
       state.products = [];
       state.allProducts = [];
@@ -173,28 +181,6 @@ const productsSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    // -----------------------------
-    // Fetch Products
-    // -----------------------------
-
-    builder
-      .addCase(getProducts.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-
-      .addCase(getProducts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = action.payload.products;
-        state.totalProducts = action.payload.total;
-        state.currentPage = action.payload.page;
-      })
-
-      .addCase(getProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-
     // -----------------------------
     // Fetch All Products
     // -----------------------------
@@ -213,6 +199,32 @@ const productsSlice = createSlice({
 
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    // -----------------------------
+    // Fetch Catalog
+    // -----------------------------
+
+    builder
+      .addCase(fetchCatalog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchCatalog.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        state.products = action.payload.products;
+
+        state.totalProducts = action.payload.total;
+
+        state.currentPage = action.payload.page;
+      })
+
+      .addCase(fetchCatalog.rejected, (state, action) => {
+        state.isLoading = false;
+
         state.error = action.payload;
       });
 
@@ -255,45 +267,6 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       });
-
-    // -----------------------------
-    // Fetch Products by Category
-    // -----------------------------
-
-    builder
-      .addCase(getProductsByCategory.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-
-      .addCase(getProductsByCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = action.payload;
-      })
-
-      .addCase(getProductsByCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-
-    // -----------------------------
-    // Search Products
-    // -----------------------------
-    builder
-      .addCase(searchProducts.pending, (state) => {
-        state.isSearching = true;
-        state.error = null;
-      })
-
-      .addCase(searchProducts.fulfilled, (state, action) => {
-        state.isSearching = false;
-        state.products = action.payload;
-      })
-
-      .addCase(searchProducts.rejected, (state, action) => {
-        state.isSearching = false;
-        state.error = action.payload;
-      });
   },
 });
 
@@ -306,6 +279,8 @@ export const {
   setMinPrice,
   setMaxPrice,
   setMinRating,
+  setCurrentPage,
+  setSearchQuery,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

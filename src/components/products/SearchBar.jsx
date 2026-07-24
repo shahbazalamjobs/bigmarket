@@ -1,46 +1,43 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { Search } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-import useDebounce from "../../hooks/useDebounce";
+import  useDebounce from "../../hooks/useDebounce";
 
 import {
-  getProducts,
-  searchProducts,
+  fetchCatalog,
+  setCurrentPage,
+  setSearchQuery,
 } from "../../features/products/productsSlice";
 
 function SearchBar() {
   const dispatch = useDispatch();
 
-  const [query, setQuery] = useState("");
+  const { searchQuery } = useSelector((state) => state.products);
 
-  const debouncedQuery = useDebounce(query, 500);
-
-  const firstRender = useRef(true);
+  const debouncedSearch = useDebounce(searchQuery, 500);
 
   useEffect(() => {
-    // Skip first render
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    dispatch(setCurrentPage(1));
 
-    const value = debouncedQuery.trim();
-
-    if (value === "") {
-      dispatch(getProducts());
-    } else {
-      dispatch(searchProducts(value));
-    }
-  }, [debouncedQuery, dispatch]);
+    dispatch(fetchCatalog());
+  }, [debouncedSearch, dispatch]);
 
   return (
-    <input
-      type="text"
-      placeholder="Search products..."
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-    />
+    <div className="relative w-full">
+      <Search
+        size={20}
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+      />
+
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={searchQuery}
+        onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+        className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-4 outline-none transition focus:border-blue-500"
+      />
+    </div>
   );
 }
 
