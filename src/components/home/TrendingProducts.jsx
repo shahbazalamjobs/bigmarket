@@ -3,17 +3,13 @@ import { useSelector } from "react-redux";
 import ProductGrid from "../products/ProductGrid";
 
 function TrendingProducts() {
-  const { products } = useSelector(
+  const { allProducts } = useSelector(
     (state) => state.products
   );
 
-
-  const trendingProducts = [...products]
-    .sort(
-      (a, b) => b.rating - a.rating
-    )
-    .slice(0, 8);
-
+  const trendingProducts = [...allProducts]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 6);
 
   return (
     <section>
@@ -27,10 +23,7 @@ function TrendingProducts() {
         </p>
       </div>
 
-
-      <ProductGrid
-        products={trendingProducts}
-      />
+      <ProductGrid products={trendingProducts} />
     </section>
   );
 }

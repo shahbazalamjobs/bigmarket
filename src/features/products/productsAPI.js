@@ -3,9 +3,19 @@ import axiosInstance from "../../api/axios";
 /**
  * Fetch all products
  */
-export const fetchProducts = async () => {
+export const fetchProducts = async (
+  page = 1,
+  limit = 12,
+) => {
   try {
-    const response = await axiosInstance.get("/products");
+    const skip = (page - 1) * limit;
+
+    const response = await axiosInstance.get("/products", {
+      params: {
+        limit,
+        skip,
+      },
+    });
 
     return response.data;
   } catch (error) {

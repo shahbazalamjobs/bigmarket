@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import ProductGrid from "../products/ProductGrid";
 
 function FeaturedProducts() {
-  const { products } = useSelector((state) => state.products);
+  const { allProducts } = useSelector((state) => state.products);
 
-  const featuredProducts = products.slice(0, 8);
+  const featuredProducts = allProducts.slice(0, 6);
 
   return (
     <section>
@@ -18,7 +18,7 @@ function FeaturedProducts() {
       <ProductGrid products={featuredProducts} />
 
       <div className="mt-8 text-center">
-        <button className="rounded-lg bg-blue-600 px-6 py-3 cursor-pointer text-white transition hover:bg-blue-700">
+        <button className="cursor-pointer rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700">
           View All Products
         </button>
       </div>
