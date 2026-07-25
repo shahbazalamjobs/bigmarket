@@ -23,7 +23,7 @@ function CategoriesSection() {
               {category.name}
             </h3>
           </Link>
-        ))}
+        )).slice(0,15)}
       </div>
     </section>
   );
