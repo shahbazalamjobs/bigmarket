@@ -7,6 +7,7 @@ import {
   clearSelectedProduct,
   getProductById,
 } from "../features/products/productsSlice";
+import ProductGallery from "../components/product-details/ProductGallery";
 
 function ProductDetails() {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -47,13 +48,7 @@ function ProductDetails() {
   return (
     <div className="grid gap-10 lg:grid-cols-2">
       {/* Product Image */}
-      <div>
-        <img
-          src={selectedProduct.thumbnail}
-          alt={selectedProduct.title}
-          className="w-full rounded-xl border object-cover"
-        />
-      </div>
+      <ProductGallery product={selectedProduct} />
 
       {/* Product Info */}
       <div className="space-y-6">
