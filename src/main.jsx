@@ -8,6 +8,7 @@ import "./index.css";
 import { store } from "./store/store";
 import { saveCart } from "./store/cartPersistence";
 import { saveWishlist } from "./store/wishlistPersistence";
+import { saveOrders } from "./store/ordersPersistence";
 
 import { Toaster } from "./components/ui/sonner";
 
@@ -18,6 +19,8 @@ let previousCart = store.getState().cart.items;
 
 // Wishlist persistence
 let previousWishlist = store.getState().wishlist.items;
+
+let previousOrders = store.getState().orders.orders;
 
 store.subscribe(() => {
   const currentCart = store.getState().cart.items;
@@ -34,6 +37,14 @@ store.subscribe(() => {
     saveWishlist(currentWishlist);
 
     previousWishlist = currentWishlist;
+  }
+
+  const currentOrders = store.getState().orders.orders;
+
+  if (currentOrders !== previousOrders) {
+    saveOrders(currentOrders);
+
+    previousOrders = currentOrders;
   }
 });
 
