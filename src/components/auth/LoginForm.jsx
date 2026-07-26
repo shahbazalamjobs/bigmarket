@@ -28,6 +28,7 @@ function LoginForm() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
+
     defaultValues: {
       username: "",
       password: "",
@@ -57,9 +58,15 @@ function LoginForm() {
       {/* Username */}
 
       <div>
-        <label className="mb-2 block font-medium">Username</label>
+        <label className="mb-2 block text-sm font-medium text-gray-700">
+          Username
+        </label>
 
-        <Input placeholder="Enter username" {...register("username")} />
+        <Input
+          placeholder="Enter username"
+          className="h-11 focus-visible:ring-violet-500"
+          {...register("username")}
+        />
 
         {errors.username && (
           <p className="mt-1 text-sm text-red-500">{errors.username.message}</p>
@@ -69,19 +76,22 @@ function LoginForm() {
       {/* Password */}
 
       <div>
-        <label className="mb-2 block font-medium">Password</label>
+        <label className="mb-2 block text-sm font-medium text-gray-700">
+          Password
+        </label>
 
         <div className="relative">
           <Input
             type={showPassword ? "text" : "password"}
             placeholder="Enter password"
+            className="h-11 pr-10 focus-visible:ring-violet-500"
             {...register("password")}
           />
 
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-violet-600"
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
@@ -92,15 +102,18 @@ function LoginForm() {
         )}
       </div>
 
-      {/* API Error */}
+      {/* Error */}
 
       {error && (
-        <div className="rounded bg-red-100 p-3 text-sm text-red-600">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
           {error}
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button
+        disabled={isLoading}
+        className="h-11 w-full bg-violet-600 text-base font-medium hover:bg-violet-700"
+      >
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

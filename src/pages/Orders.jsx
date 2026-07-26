@@ -36,17 +36,7 @@ function Orders() {
                 </p>
               </div>
 
-              <span
-                className="
-                  rounded-full
-                  bg-violet-100
-                  px-4
-                  py-1
-                  text-sm
-                  font-medium
-                  text-violet-600
-                "
-              >
+              <span className="rounded-full bg-violet-100 px-4 py-1 text-sm font-medium text-violet-600">
                 {order.status}
               </span>
             </div>
@@ -56,24 +46,12 @@ function Orders() {
               {order.items.map((item) => (
                 <div
                   key={item.id}
-                  className="
-                    flex
-                    items-center
-                    gap-4
-                    rounded-lg
-                    bg-gray-50
-                    p-4
-                  "
+                  className="flex items-center gap-4 rounded-lg bg-gray-50 p-4"
                 >
                   <img
                     src={item.thumbnail}
                     alt={item.title}
-                    className="
-                      h-16
-                      w-16
-                      rounded-lg
-                      object-cover
-                    "
+                    className="h-16 w-16 rounded-lg object-cover"
                   />
 
                   <div className="flex-1">
