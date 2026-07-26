@@ -47,11 +47,11 @@ function Home() {
     <div className="space-y-16">
       <HeroBanner />
 
-      <CategoriesSection />
-
       <FeaturedProducts />
 
       <TrendingProducts />
+
+      <CategoriesSection />
 
       <FlashSale />
 

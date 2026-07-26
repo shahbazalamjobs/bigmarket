@@ -11,10 +11,10 @@ function Newsletter() {
         <input
           type="email"
           placeholder="Enter your email"
-          className="flex-1 rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 rounded-lg border px-4 py-3 bg-white outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        <button className="rounded-lg bg-blue-600 px-5 py-3 text-white hover:bg-blue-700">
+        <button className="rounded-lg bg-violet-600 px-5 py-3 text-white hover:bg-violet-700">
           Subscribe
         </button>
       </div>

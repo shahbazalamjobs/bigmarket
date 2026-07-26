@@ -86,7 +86,7 @@ function ProductDetails() {
         </div>
 
         <div>
-          <h2 className="text-3xl font-bold text-blue-600">
+          <h2 className="text-3xl font-bold text-violet-600">
             ${selectedProduct.price}
           </h2>
 
@@ -140,7 +140,7 @@ function ProductDetails() {
           <button
             onClick={handleAddToCart}
             disabled={selectedProduct.stock === 0}
-            className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg bg-violet-600 px-8 py-3 font-medium text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Add to Cart
           </button>

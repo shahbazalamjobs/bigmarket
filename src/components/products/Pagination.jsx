@@ -49,7 +49,7 @@ function Pagination() {
             disabled={isLoading}
             className={`rounded-lg px-4 py-2 transition ${
               currentPage === page
-                ? "bg-blue-600 text-white"
+                ? "bg-violet-600 text-white"
                 : "border hover:bg-gray-100"
             }`}
           >

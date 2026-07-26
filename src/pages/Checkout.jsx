@@ -45,11 +45,11 @@ function Checkout() {
           to="/products"
           className="
             rounded-lg
-            bg-blue-600
+            bg-violet-600
             px-6
             py-3
             text-white
-            hover:bg-blue-700
+            hover:bg-violet-700
           "
         >
           Continue Shopping
@@ -183,8 +183,8 @@ function Checkout() {
           <button
             onClick={handlePlaceOrder}
             disabled={!shippingDetails}
-            className="mt-6 w-full rounded-lg bg-blue-600 py-3 font-medium text-white transition
-            hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 "
+            className="mt-6 w-full rounded-lg bg-violet-600 py-3 font-medium text-white transition
+            hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50 "
           >
             Place Order
           </button>

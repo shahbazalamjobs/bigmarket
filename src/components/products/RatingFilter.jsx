@@ -19,11 +19,18 @@ function RatingFilter() {
 
   const { minRating } = useSelector((state) => state.products);
 
+  const ratingOptions = {
+    0: "All Ratings",
+    1: "1★ & Above",
+    2: "2★ & Above",
+    3: "3★ & Above",
+    4: "4★ & Above",
+    5: "5★ Only",
+  };
+
   const handleRatingChange = (value) => {
     dispatch(setMinRating(Number(value)));
     dispatch(setCurrentPage(1));
-
-    // Refresh current catalog
     dispatch(fetchCatalog());
   };
 
@@ -33,15 +40,22 @@ function RatingFilter() {
 
       <Select value={String(minRating)} onValueChange={handleRatingChange}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select Rating" />
+          <SelectValue placeholder="Select Rating">
+            {ratingOptions[minRating]}
+          </SelectValue>
         </SelectTrigger>
 
         <SelectContent>
           <SelectItem value="0">All Ratings</SelectItem>
+
           <SelectItem value="1">1★ & Above</SelectItem>
+
           <SelectItem value="2">2★ & Above</SelectItem>
+
           <SelectItem value="3">3★ & Above</SelectItem>
+
           <SelectItem value="4">4★ & Above</SelectItem>
+
           <SelectItem value="5">5★ Only</SelectItem>
         </SelectContent>
       </Select>

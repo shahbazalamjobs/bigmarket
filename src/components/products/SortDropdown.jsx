@@ -15,13 +15,21 @@ function SortDropdown() {
 
   const { sortBy } = useSelector((state) => state.products);
 
+  const sortOptions = {
+    default: "Default",
+    "price-asc": "Price: Low → High",
+    "price-desc": "Price: High → Low",
+    rating: "Highest Rating",
+    discount: "Highest Discount",
+  };
+
   return (
     <Select
       value={sortBy}
       onValueChange={(value) => dispatch(setSortBy(value))}
     >
       <SelectTrigger className="w-[220px]">
-        <SelectValue placeholder="Sort By" />
+        <SelectValue placeholder="Sort By">{sortOptions[sortBy]}</SelectValue>
       </SelectTrigger>
 
       <SelectContent>

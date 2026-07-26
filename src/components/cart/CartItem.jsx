@@ -34,7 +34,7 @@ function CartItem({ item }) {
 
           {/* Price */}
           <div className="flex items-center gap-3">
-            <span className="text-xl font-bold text-blue-600">
+            <span className="text-xl font-bold text-violet-600">
               ${discountedPrice.toFixed(2)}
             </span>
 

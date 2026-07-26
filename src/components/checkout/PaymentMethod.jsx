@@ -37,7 +37,7 @@ function PaymentMethod({ paymentMethod, setPaymentMethod }) {
               onClick={() => setPaymentMethod(method.id)}
               className={`flex w-full items-center gap-4 rounded-lg border p-4 text-left transition ${
                 paymentMethod === method.id
-                  ? "border-blue-600 bg-blue-50"
+                  ? "border-blue-600 bg-violet-50"
                   : "hover:bg-gray-50"
               }`}
             >

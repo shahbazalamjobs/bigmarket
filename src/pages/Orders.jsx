@@ -11,7 +11,7 @@ function Orders() {
 
         <Link
           to="/products"
-          className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
+          className="rounded-lg bg-violet-600 px-6 py-3 text-white hover:bg-violet-700"
         >
           Start Shopping
         </Link>
@@ -27,7 +27,7 @@ function Orders() {
         {orders.map((order) => (
           <div key={order.id} className="rounded-xl border p-6 shadow-sm">
             {/* Header */}
-            <div className="flex flex-col justify-between gap-3 sm:flex-row">
+            <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
               <div>
                 <h2 className="text-xl font-semibold">Order #{order.id}</h2>
 
@@ -39,12 +39,12 @@ function Orders() {
               <span
                 className="
                   rounded-full
-                  bg-blue-100
+                  bg-violet-100
                   px-4
                   py-1
                   text-sm
                   font-medium
-                  text-blue-600
+                  text-violet-600
                 "
               >
                 {order.status}

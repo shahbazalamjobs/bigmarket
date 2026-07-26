@@ -52,7 +52,7 @@ function WishlistItem({ product }) {
 
           <p className="text-gray-500">{product.brand}</p>
 
-          <p className="text-2xl font-bold text-blue-600">${product.price}</p>
+          <p className="text-2xl font-bold text-violet-600">${product.price}</p>
 
           <p className={product.stock > 0 ? "text-green-600" : "text-red-600"}>
             {product.stock > 0 ? `${product.stock} Available` : "Out of Stock"}
@@ -71,12 +71,12 @@ function WishlistItem({ product }) {
               justify-center
               gap-2
               rounded-lg
-              bg-blue-600
+              bg-violet-600
               px-4
               py-3
               text-white
               transition
-              hover:bg-blue-700
+              hover:bg-violet-700
               disabled:cursor-not-allowed
               disabled:opacity-50
             "

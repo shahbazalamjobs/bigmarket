@@ -9,7 +9,7 @@ function Wishlist() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold">My Wishlist ❤️</h1>
+        <h1 className="text-4xl font-bold">My Wishlist </h1>
 
         <p className="mt-2 text-gray-600">Products you saved for later</p>
       </div>

@@ -33,7 +33,7 @@ function OrderSuccess() {
         <div className="flex justify-between">
           <span className="font-medium">Status</span>
 
-          <span className="text-blue-600">{latestOrder.status}</span>
+          <span className="text-violet-600">{latestOrder.status}</span>
         </div>
 
         <div className="flex justify-between">
@@ -58,7 +58,7 @@ function OrderSuccess() {
       <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
         <Link
           to="/products"
-          className="rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+          className="rounded-lg bg-violet-600 px-6 py-3 text-white transition hover:bg-violet-700"
         >
           Continue Shopping
         </Link>

@@ -29,28 +29,24 @@ function ProductFilters() {
 
   return (
     <div className="rounded-lg border p-5 shadow-sm">
-      <h2 className="mb-4 text-xl font-semibold">
-        Category
-      </h2>
+      <h2 className="mb-4 text-xl font-semibold">Category</h2>
 
-      <Select
-        value={selectedCategory}
-        onValueChange={handleCategoryChange}
-      >
+      <Select value={selectedCategory} onValueChange={handleCategoryChange}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select Category" />
+          <SelectValue>
+            {selectedCategory === "all"
+              ? "All Products"
+              : categories.find(
+                  (category) => category.slug === selectedCategory,
+                )?.name}
+          </SelectValue>
         </SelectTrigger>
 
         <SelectContent>
-          <SelectItem value="all">
-            All Products
-          </SelectItem>
+          <SelectItem value="all">All Products</SelectItem>
 
           {categories.map((category) => (
-            <SelectItem
-              key={category.slug}
-              value={category.slug}
-            >
+            <SelectItem key={category.slug} value={category.slug}>
               {category.name}
             </SelectItem>
           ))}

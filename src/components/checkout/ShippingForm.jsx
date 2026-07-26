@@ -64,14 +64,14 @@ function ShippingForm({ onSubmit }) {
     resolver: zodResolver(checkoutSchema),
 
     defaultValues: {
-      fullName: "",
-      email: "",
-      phone: "",
-      address: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
+      fullName: "John Smith",
+      email: "john.smith@gmail.com",
+      phone: "+1 234 567 8901",
+      address: "123 Main Street",
+      city: "New York",
+      state: "New York",
+      postalCode: "10001",
+      country: "United States",
     },
   });
 
@@ -109,7 +109,7 @@ function ShippingForm({ onSubmit }) {
         <div className="md:col-span-2">
           <button
             type="submit"
-            className="w-full rounded-lg bg-blue-600 py-3 font-medium text-white transition hover:bg-blue-700"
+            className="w-full rounded-lg bg-violet-600 py-3 font-medium text-white transition hover:bg-violet-700"
           >
             Save Shipping Information
           </button>

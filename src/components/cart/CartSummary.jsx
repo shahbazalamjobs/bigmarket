@@ -54,7 +54,7 @@ function CartSummary() {
         <div className="flex justify-between text-xl font-bold">
           <span>Total</span>
 
-          <span className="text-blue-600">${total.toFixed(2)}</span>
+          <span className="text-violet-600">${total.toFixed(2)}</span>
         </div>
       </div>
 
@@ -68,7 +68,7 @@ function CartSummary() {
 
         <Link
           to="/checkout"
-          className="block rounded-lg bg-blue-600 px-6 py-3 text-center font-medium text-white transition hover:bg-blue-700"
+          className="block rounded-lg bg-violet-600 px-6 py-3 text-center font-medium text-white transition hover:bg-violet-700"
         >
           Proceed to Checkout
         </Link>

@@ -21,7 +21,7 @@ function FeaturedProducts() {
       <div className="mt-8 text-center">
         <Link
           to="/products"
-          className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+          className="inline-block rounded-lg bg-violet-600 px-6 py-3 text-white transition hover:bg-violet-700"
         >
           View All Products
         </Link>
