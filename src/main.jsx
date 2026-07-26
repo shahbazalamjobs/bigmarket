@@ -6,7 +6,13 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import { store } from "./store/store";
+import { saveCart } from "./store/cartPersistence";
 import router from "./routes/router";
+
+// Persist cart whenever Redux state changes
+store.subscribe(() => {
+  saveCart(store.getState().cart.items);
+});
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

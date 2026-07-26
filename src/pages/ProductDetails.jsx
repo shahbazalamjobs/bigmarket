@@ -8,9 +8,12 @@ import {
   getProductById,
 } from "../features/products/productsSlice";
 import ProductGallery from "../components/product-details/ProductGallery";
+import QuantitySelector from "../components/product-details/QuantitySelector";
+import { addToCart } from "../features/cart/cartSlice";
 
 function ProductDetails() {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -26,6 +29,22 @@ function ProductDetails() {
       dispatch(clearSelectedProduct());
     };
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setQuantity(1);
+      setIsWishlisted(false);
+    }
+  }, [selectedProduct]);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        product: selectedProduct,
+        quantity,
+      }),
+    );
+  };
 
   if (isLoading) {
     return (
@@ -78,7 +97,16 @@ function ProductDetails() {
           </p>
 
           <p>
-            <strong>Stock:</strong> {selectedProduct.stock}
+            <strong>Stock:</strong>{" "}
+            <span
+              className={
+                selectedProduct.stock > 0 ? "text-green-600" : "text-red-600"
+              }
+            >
+              {selectedProduct.stock > 0
+                ? `${selectedProduct.stock} Available`
+                : "Out of Stock"}
+            </span>
           </p>
 
           <p>
@@ -94,8 +122,18 @@ function ProductDetails() {
           </p>
         </div>
 
+        <QuantitySelector
+          quantity={quantity}
+          setQuantity={setQuantity}
+          stock={selectedProduct.stock}
+        />
+
         <div className="flex items-center gap-4">
-          <button className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition hover:bg-blue-700">
+          <button
+            onClick={handleAddToCart}
+            disabled={selectedProduct.stock === 0}
+            className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
             Add to Cart
           </button>
 
