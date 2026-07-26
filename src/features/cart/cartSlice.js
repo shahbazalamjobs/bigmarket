@@ -3,7 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const loadCart = () => {
   try {
     const cart = localStorage.getItem("cart");
-    return cart ? JSON.parse(cart) : [];
+
+    if (!cart) return [];
+
+    return JSON.parse(cart).map((item) => ({
+      ...item,
+      discountPercentage: item.discountPercentage || 0,
+    }));
   } catch {
     return [];
   }
@@ -15,6 +21,7 @@ const initialState = {
 
 const cartSlice = createSlice({
   name: "cart",
+
   initialState,
 
   reducers: {
@@ -32,9 +39,11 @@ const cartSlice = createSlice({
         state.items.push({
           id: product.id,
           title: product.title,
+          brand: product.brand,
           price: product.price,
           thumbnail: product.thumbnail,
           stock: product.stock,
+          discountPercentage: product.discountPercentage || 0,
           quantity,
         });
       }

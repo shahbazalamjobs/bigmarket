@@ -9,9 +9,17 @@ import { store } from "./store/store";
 import { saveCart } from "./store/cartPersistence";
 import router from "./routes/router";
 
-// Persist cart whenever Redux state changes
+// Persist cart only when cart changes
+let previousCart = store.getState().cart.items;
+
 store.subscribe(() => {
-  saveCart(store.getState().cart.items);
+  const currentCart = store.getState().cart.items;
+
+  if (currentCart !== previousCart) {
+    saveCart(currentCart);
+
+    previousCart = currentCart;
+  }
 });
 
 createRoot(document.getElementById("root")).render(
