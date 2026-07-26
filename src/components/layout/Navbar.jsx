@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, User, LogOut } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import { logout } from "../../features/auth/authSlice";
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { items } = useSelector((state) => state.cart);
@@ -74,26 +78,45 @@ function Navbar() {
               Login
             </NavLink>
           ) : (
-            <>
-              <NavLink to="/profile" className={navLinkClass}>
-                <div className="flex items-center gap-2">
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger>
+                <div className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 transition hover:bg-gray-100">
                   <img
                     src={user?.image}
                     alt={user?.firstName}
-                    className="h-8 w-8 rounded-full object-cover"
+                    className="h-9 w-9 rounded-full object-cover"
                   />
 
-                  <span className="font-medium">Profile</span>
+                  <span className="hidden font-medium md:block">
+                    {user?.firstName}
+                  </span>
                 </div>
-              </NavLink>
+              </PopoverTrigger>
 
-              <button
-                onClick={handleLogout}
-                className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </>
+              <PopoverContent align="end" className="w-56 p-2">
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/profile");
+                  }}
+                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-gray-100"
+                >
+                  <User size={16} />
+                  Profile
+                </button>
+
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    handleLogout();
+                  }}
+                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                >
+                  <LogOut size={16} />
+                  Logout
+                </button>
+              </PopoverContent>
+            </Popover>
           )}
         </nav>
       </div>

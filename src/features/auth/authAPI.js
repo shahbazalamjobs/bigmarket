@@ -20,3 +20,9 @@ export const loginUser = async (credentials) => {
     );
   }
 };
+
+export const getUserById = async (id) => {
+  const response = await axiosInstance.get(`/users/${id}`);
+
+  return response.data;
+};

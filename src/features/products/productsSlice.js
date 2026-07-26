@@ -4,7 +4,7 @@ import {
   fetchProducts,
   fetchProductById,
   fetchCategories,
-  fetchProductsByCategory,
+  fetchProductsByCategory as fetchProductsByCategoryAPI,
   searchProducts as searchProductsAPI,
 } from "./productsAPI";
 
@@ -13,6 +13,7 @@ const initialState = {
   products: [], // Products displayed on Products page
 
   categories: [],
+  categoryProducts: [],
   selectedProduct: null,
 
   selectedCategory: "all",
@@ -71,7 +72,7 @@ export const fetchCatalog = createAsyncThunk(
 
       // CATEGORY
       if (selectedCategory !== "all") {
-        data = await fetchProductsByCategory(
+        data = await fetchProductsByCategoryAPI(
           selectedCategory,
           currentPage,
           limit,
@@ -111,6 +112,22 @@ export const getProductById = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.message || "Failed to fetch product",
+      );
+    }
+  },
+);
+
+export const fetchProductsByCategory = createAsyncThunk(
+  "products/fetchProductsByCategory",
+
+  async (category, thunkAPI) => {
+    try {
+      const data = await fetchProductsByCategoryAPI(category);
+
+      return data.products;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to fetch category products",
       );
     }
   },
@@ -264,6 +281,25 @@ const productsSlice = createSlice({
       })
 
       .addCase(getCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    // -----------------------------
+    // Fetch Products by Categories
+    // -----------------------------
+
+    builder
+      .addCase(fetchProductsByCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categoryProducts = action.payload;
+      })
+
+      .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

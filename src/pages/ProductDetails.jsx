@@ -7,13 +7,14 @@ import {
   clearSelectedProduct,
   getProductById,
 } from "../features/products/productsSlice";
+import { addToCart } from "../features/cart/cartSlice";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "../features/wishlist/wishlistSlice";
 import ProductGallery from "../components/product-details/ProductGallery";
 import QuantitySelector from "../components/product-details/QuantitySelector";
-import { addToCart } from "../features/cart/cartSlice";
+import ProductDetailsSkeleton from "../components/product-details/ProductDetailsSkeleton";
 import { toast } from "sonner";
 
 function ProductDetails() {
@@ -58,11 +59,7 @@ function ProductDetails() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        Loading product...
-      </div>
-    );
+    return <ProductDetailsSkeleton />;
   }
 
   if (error) {

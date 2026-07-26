@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import ProductGrid from "../products/ProductGrid";
 
@@ -18,9 +19,12 @@ function FeaturedProducts() {
       <ProductGrid products={featuredProducts} />
 
       <div className="mt-8 text-center">
-        <button className="cursor-pointer rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700">
+        <Link
+          to="/products"
+          className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+        >
           View All Products
-        </button>
+        </Link>
       </div>
     </section>
   );

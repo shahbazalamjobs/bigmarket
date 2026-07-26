@@ -12,8 +12,8 @@ function CategoriesSection() {
         <p className="text-gray-600">Explore products by category</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {categories.map((category) => (
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {categories.slice(0,12).map((category) => (
           <Link
             key={category.slug}
             to={`/products/category/${category.slug}`}
@@ -23,7 +23,7 @@ function CategoriesSection() {
               {category.name}
             </h3>
           </Link>
-        )).slice(0,15)}
+        ))}
       </div>
     </section>
   );

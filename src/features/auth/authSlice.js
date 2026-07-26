@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth, saveAuth, removeAuth } from "../../utils/authStorage";
-import { loginUser } from "./authAPI";
+import { loginUser, getUserById } from "./authAPI";
 
 const persistedAuth = getAuth();
 
@@ -20,9 +20,17 @@ export const login = createAsyncThunk(
 
   async (credentials, thunkAPI) => {
     try {
+      // Login and get token
       const data = await loginUser(credentials);
 
-      return data;
+      // Fetch complete user details
+      const user = await getUserById(data.id);
+
+      return {
+        ...user,
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+      };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message || "Login failed",

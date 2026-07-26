@@ -1,23 +1,35 @@
 import ProductCard from "./ProductCard";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
-function ProductGrid({ products }) {
-  if (!products.length) {
+function ProductGrid({ products, loading }) {
+  if (loading) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-lg border border-dashed">
-        <p className="text-lg text-gray-500">
-          No products found.
-        </p>
+      <div
+        className="
+        grid
+        gap-6
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      >
+        {Array.from({ length: 8 }).map((_, index) => (
+          <ProductCardSkeleton key={index} />
+        ))}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    <div
+      className="
+      grid
+      gap-6
+      sm:grid-cols-2
+      lg:grid-cols-3
+    "
+    >
       {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-        />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );

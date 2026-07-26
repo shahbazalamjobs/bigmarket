@@ -9,6 +9,7 @@ import PageLoader from "../components/common/PageLoader";
 const Home = lazy(() => import("../pages/Home"));
 const Products = lazy(() => import("../pages/Products"));
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
+const CategoryProducts = lazy(() => import("../pages/CategoryProducts"));
 const Cart = lazy(() => import("../pages/Cart"));
 const Wishlist = lazy(() => import("../pages/Wishlist"));
 const Checkout = lazy(() => import("../pages/Checkout"));
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "products/category/:category",
+        element: <CategoryProducts />,
       },
 
       // Protected Routes

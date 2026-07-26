@@ -16,11 +16,16 @@ import RatingFilter from "../components/products/RatingFilter";
 
 function Products() {
   const dispatch = useDispatch();
-
-  const { categories } = useSelector((state) => state.products);
-
-  const { products, sortBy, minPrice, maxPrice, minRating, isLoading, error } =
-    useSelector((state) => state.products);
+  const {
+    categories,
+    products,
+    sortBy,
+    minPrice,
+    maxPrice,
+    minRating,
+    isLoading,
+    error,
+  } = useSelector((state) => state.products);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -110,17 +115,9 @@ function Products() {
         </aside>
 
         <main className="space-y-8 lg:col-span-3">
-          {isLoading ? (
-            <div className="flex h-96 items-center justify-center">
-              <p className="text-lg text-blue-600">Loading products...</p>
-            </div>
-          ) : (
-            <>
-              <ProductGrid products={filteredProducts} />
+          <ProductGrid products={filteredProducts} loading={isLoading} />
 
-              <Pagination />
-            </>
-          )}
+          {!isLoading && <Pagination />}
         </main>
       </div>
     </div>

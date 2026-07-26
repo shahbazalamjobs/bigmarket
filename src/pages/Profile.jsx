@@ -28,24 +28,12 @@ function Profile() {
 
       {/* Profile Header */}
 
-      <div
-        className="
-        rounded-xl
-        border
-        p-6
-        shadow-sm
-      "
-      >
+      <div className="rounded-xl border p-6 shadow-sm">
         <div className="flex items-center gap-6">
           <img
             src={user.image}
             alt={user.firstName}
-            className="
-              h-24
-              w-24
-              rounded-full
-              object-cover
-            "
+            className="h-24 w-24 rounded-full object-cover"
           />
 
           <div>
@@ -62,74 +50,35 @@ function Profile() {
 
       {/* Account Links */}
 
-      <div
-        className="
-        grid
-        gap-5
-        md:grid-cols-3
-      "
-      >
+      <div className="grid gap-5 md:grid-cols-3">
         <Link
           to="/orders"
-          className="
-            flex
-            items-center
-            gap-3
-            rounded-xl
-            border
-            p-5
-            hover:bg-gray-50
-          "
+          className="flex items-center gap-3 rounded-xl border p-5 hover:bg-gray-50"
         >
           <Package />
-
           <span>Orders</span>
         </Link>
 
         <Link
           to="/wishlist"
-          className="
-            flex
-            items-center
-            gap-3
-            rounded-xl
-            border
-            p-5
-            hover:bg-gray-50
-          "
+          className="flex items-center gap-3 rounded-xl border p-5 hover:bg-gray-50"
         >
           <Heart />
-
           <span>Wishlist</span>
         </Link>
 
         <Link
           to="/cart"
-          className="
-            flex
-            items-center
-            gap-3
-            rounded-xl
-            border
-            p-5
-            hover:bg-gray-50
-          "
+          className="flex items-center gap-3 rounded-xl border p-5 hover:bg-gray-50"
         >
           <ShoppingCart />
-
           <span>Cart</span>
         </Link>
       </div>
 
       {/* Personal Information */}
 
-      <div
-        className="
-          rounded-xl
-          border
-          p-6
-        "
-      >
+      <div className="rounded-xl border p-6">
         <h2 className="mb-5 text-xl font-semibold">Personal Information</h2>
 
         <div className="space-y-3 text-gray-600">
@@ -153,24 +102,14 @@ function Profile() {
 
       {/* Address */}
 
-      <div
-        className="
-          rounded-xl
-          border
-          p-6
-        "
-      >
+      <div className="rounded-xl border p-6">
         <h2 className="mb-5 text-xl font-semibold">Address</h2>
 
         <p className="text-gray-600">
           {user.address?.address || "No address"}
-
           <br />
-
           {user.address?.city}
-
           <br />
-
           {user.address?.state}
         </p>
       </div>
@@ -179,17 +118,7 @@ function Profile() {
 
       <button
         onClick={handleLogout}
-        className="
-          flex
-          items-center
-          gap-2
-          rounded-lg
-          bg-red-600
-          px-6
-          py-3
-          text-white
-          hover:bg-red-700
-        "
+        className="flex items-center gap-2 rounded-lg bg-red-600 px-6 py-2 text-white hover:bg-red-700"
       >
         <LogOut size={20} />
         Logout

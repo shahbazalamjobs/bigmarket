@@ -29,11 +29,7 @@ export const fetchCategories = async () => {
 };
 
 // Search products (paginated)
-export const searchProducts = async (
-  query,
-  page = 1,
-  limit = 12,
-) => {
+export const searchProducts = async (query, page = 1, limit = 12) => {
   const skip = (page - 1) * limit;
 
   const response = await axiosInstance.get("/products/search", {
@@ -55,15 +51,12 @@ export const fetchProductsByCategory = async (
 ) => {
   const skip = (page - 1) * limit;
 
-  const response = await axiosInstance.get(
-    `/products/category/${category}`,
-    {
-      params: {
-        limit,
-        skip,
-      },
+  const response = await axiosInstance.get(`/products/category/${category}`, {
+    params: {
+      limit,
+      skip,
     },
-  );
+  });
 
   return response.data;
 };
