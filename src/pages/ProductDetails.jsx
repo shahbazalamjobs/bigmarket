@@ -7,12 +7,16 @@ import {
   clearSelectedProduct,
   getProductById,
 } from "../features/products/productsSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../features/wishlist/wishlistSlice";
 import ProductGallery from "../components/product-details/ProductGallery";
 import QuantitySelector from "../components/product-details/QuantitySelector";
 import { addToCart } from "../features/cart/cartSlice";
+import { toast } from "sonner";
 
 function ProductDetails() {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const dispatch = useDispatch();
@@ -21,6 +25,12 @@ function ProductDetails() {
   const { selectedProduct, isLoading, error } = useSelector(
     (state) => state.products,
   );
+
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const isWishlisted = selectedProduct
+    ? wishlistItems.some((item) => item.id === selectedProduct.id)
+    : false;
 
   useEffect(() => {
     dispatch(getProductById(id));
@@ -33,7 +43,6 @@ function ProductDetails() {
   useEffect(() => {
     if (selectedProduct) {
       setQuantity(1);
-      setIsWishlisted(false);
     }
   }, [selectedProduct]);
 
@@ -44,6 +53,8 @@ function ProductDetails() {
         quantity,
       }),
     );
+
+    toast.success("Added to cart");
   };
 
   if (isLoading) {
@@ -138,14 +149,24 @@ function ProductDetails() {
           </button>
 
           <button
-            onClick={() => setIsWishlisted(!isWishlisted)}
+            onClick={() => {
+              if (isWishlisted) {
+                dispatch(removeFromWishlist(selectedProduct.id));
+
+                toast.success("Removed from wishlist");
+              } else {
+                dispatch(addToWishlist(selectedProduct));
+
+                toast.success("Added to wishlist ❤️");
+              }
+            }}
             className="flex h-12 w-12 items-center justify-center rounded-lg border transition hover:bg-gray-100"
           >
             <Heart
               size={24}
-              className={`transition ${
+              className={
                 isWishlisted ? "fill-red-500 text-red-500" : "text-gray-500"
-              }`}
+              }
             />
           </button>
         </div>

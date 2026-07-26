@@ -33,17 +33,22 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity = Math.min(
           existingItem.quantity + quantity,
-          product.stock,
+          existingItem.stock,
         );
       } else {
         state.items.push({
           id: product.id,
+
           title: product.title,
-          brand: product.brand,
+
           price: product.price,
+
           thumbnail: product.thumbnail,
+
           stock: product.stock,
+
           discountPercentage: product.discountPercentage || 0,
+
           quantity,
         });
       }

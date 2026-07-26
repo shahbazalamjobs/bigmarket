@@ -7,10 +7,17 @@ import "./index.css";
 
 import { store } from "./store/store";
 import { saveCart } from "./store/cartPersistence";
+import { saveWishlist } from "./store/wishlistPersistence";
+
+import { Toaster } from "./components/ui/sonner";
+
 import router from "./routes/router";
 
-// Persist cart only when cart changes
+// Cart persistence
 let previousCart = store.getState().cart.items;
+
+// Wishlist persistence
+let previousWishlist = store.getState().wishlist.items;
 
 store.subscribe(() => {
   const currentCart = store.getState().cart.items;
@@ -20,12 +27,21 @@ store.subscribe(() => {
 
     previousCart = currentCart;
   }
+
+  const currentWishlist = store.getState().wishlist.items;
+
+  if (currentWishlist !== previousWishlist) {
+    saveWishlist(currentWishlist);
+
+    previousWishlist = currentWishlist;
+  }
 });
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
+      <Toaster />
     </Provider>
   </StrictMode>,
 );

@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 
 import { logout } from "../../features/auth/authSlice";
 
@@ -12,6 +12,8 @@ function Navbar() {
   const { items } = useSelector((state) => state.cart);
 
   const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -57,9 +59,15 @@ function Navbar() {
             )}
           </Link>
 
-          <NavLink to="/wishlist" className={navLinkClass}>
-            Wishlist
-          </NavLink>
+          <Link to="/wishlist" className="relative flex items-center gap-1">
+            <Heart size={24} className="text-gray-700" />
+
+            {wishlistCount > 0 && (
+              <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white ">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
 
           {!isAuthenticated ? (
             <NavLink to="/login" className={navLinkClass}>
