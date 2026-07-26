@@ -50,6 +50,7 @@ function LoginForm() {
   }, [isAuthenticated, navigate]);
 
   const onSubmit = (data) => {
+    console.log("Submitting", data);
     dispatch(login(data));
   };
 
@@ -113,6 +114,7 @@ function LoginForm() {
       <Button
         disabled={isLoading}
         className="h-11 w-full bg-violet-600 text-base font-medium hover:bg-violet-700"
+        type='submit'
       >
         {isLoading ? (
           <>

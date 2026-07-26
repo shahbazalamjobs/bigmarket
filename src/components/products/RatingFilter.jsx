@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  fetchCatalog,
   setCurrentPage,
   setMinRating,
 } from "../../features/products/productsSlice";
@@ -31,7 +30,6 @@ function RatingFilter() {
   const handleRatingChange = (value) => {
     dispatch(setMinRating(Number(value)));
     dispatch(setCurrentPage(1));
-    dispatch(fetchCatalog());
   };
 
   return (
@@ -47,15 +45,10 @@ function RatingFilter() {
 
         <SelectContent>
           <SelectItem value="0">All Ratings</SelectItem>
-
           <SelectItem value="1">1★ & Above</SelectItem>
-
           <SelectItem value="2">2★ & Above</SelectItem>
-
           <SelectItem value="3">3★ & Above</SelectItem>
-
           <SelectItem value="4">4★ & Above</SelectItem>
-
           <SelectItem value="5">5★ Only</SelectItem>
         </SelectContent>
       </Select>

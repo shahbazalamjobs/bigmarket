@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { Search } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
-import  useDebounce from "../../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
 import {
-  fetchCatalog,
   setCurrentPage,
   setSearchQuery,
 } from "../../features/products/productsSlice";
@@ -19,8 +18,6 @@ function SearchBar() {
 
   useEffect(() => {
     dispatch(setCurrentPage(1));
-
-    dispatch(fetchCatalog());
   }, [debouncedSearch, dispatch]);
 
   return (

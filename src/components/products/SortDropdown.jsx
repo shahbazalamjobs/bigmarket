@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { setSortBy } from "../../features/products/productsSlice";
+import {
+  setCurrentPage,
+  setSortBy,
+} from "../../features/products/productsSlice";
 
 import {
   Select,
@@ -23,11 +26,13 @@ function SortDropdown() {
     discount: "Highest Discount",
   };
 
+  const handleSortChange = (value) => {
+    dispatch(setSortBy(value));
+    dispatch(setCurrentPage(1));
+  };
+
   return (
-    <Select
-      value={sortBy}
-      onValueChange={(value) => dispatch(setSortBy(value))}
-    >
+    <Select value={sortBy} onValueChange={handleSortChange}>
       <SelectTrigger className="w-[220px]">
         <SelectValue placeholder="Sort By">{sortOptions[sortBy]}</SelectValue>
       </SelectTrigger>

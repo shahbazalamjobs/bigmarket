@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  fetchCatalog,
+  getAllProducts,
   getCategories,
 } from "../features/products/productsSlice";
 
@@ -16,13 +16,18 @@ import RatingFilter from "../components/products/RatingFilter";
 
 function Products() {
   const dispatch = useDispatch();
+
   const {
+    allProducts,
     categories,
-    products,
+    selectedCategory,
+    searchQuery,
     sortBy,
     minPrice,
     maxPrice,
     minRating,
+    currentPage,
+    limit,
     isLoading,
     error,
   } = useSelector((state) => state.products);
@@ -32,13 +37,39 @@ function Products() {
       dispatch(getCategories());
     }
 
-    dispatch(fetchCatalog());
-  }, [dispatch, categories.length]);
+    if (allProducts.length === 0) {
+      dispatch(getAllProducts());
+    }
+  }, [dispatch, categories.length, allProducts.length]);
 
-  const filteredProducts = useMemo(() => {
-    let filtered = [...products];
+  const { paginatedProducts, totalProducts } = useMemo(() => {
+    let filtered = [...allProducts];
 
-    // Price Filter
+    // -----------------------------
+    // Search
+    // -----------------------------
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase();
+
+      filtered = filtered.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query),
+      );
+    }
+
+    // -----------------------------
+    // Category
+    // -----------------------------
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter(
+        (product) => product.category === selectedCategory,
+      );
+    }
+
+    // -----------------------------
+    // Price
+    // -----------------------------
     if (minPrice !== "") {
       filtered = filtered.filter(
         (product) => product.price >= Number(minPrice),
@@ -51,12 +82,16 @@ function Products() {
       );
     }
 
-    // Rating Filter
+    // -----------------------------
+    // Rating
+    // -----------------------------
     if (minRating > 0) {
       filtered = filtered.filter((product) => product.rating >= minRating);
     }
 
-    // Sorting
+    // -----------------------------
+    // Sort
+    // -----------------------------
     switch (sortBy) {
       case "price-asc":
         filtered.sort((a, b) => a.price - b.price);
@@ -78,8 +113,30 @@ function Products() {
         break;
     }
 
-    return filtered;
-  }, [products, sortBy, minPrice, maxPrice, minRating]);
+    // -----------------------------
+    // Pagination
+    // -----------------------------
+    const totalProducts = filtered.length;
+
+    const startIndex = (currentPage - 1) * limit;
+
+    const paginatedProducts = filtered.slice(startIndex, startIndex + limit);
+
+    return {
+      paginatedProducts,
+      totalProducts,
+    };
+  }, [
+    allProducts,
+    searchQuery,
+    selectedCategory,
+    minPrice,
+    maxPrice,
+    minRating,
+    sortBy,
+    currentPage,
+    limit,
+  ]);
 
   return (
     <div className="space-y-8">
@@ -93,7 +150,7 @@ function Products() {
 
         <div className="flex items-center gap-4">
           <div className="rounded bg-gray-100 px-4 py-2 text-sm">
-            {filteredProducts.length} Products
+            {totalProducts} Products
           </div>
 
           <SortDropdown />
@@ -115,9 +172,9 @@ function Products() {
         </aside>
 
         <main className="space-y-8 lg:col-span-3">
-          <ProductGrid products={filteredProducts} loading={isLoading} />
+          <ProductGrid products={paginatedProducts} loading={isLoading} />
 
-          {!isLoading && <Pagination />}
+          {!isLoading && <Pagination totalProducts={totalProducts} />}
         </main>
       </div>
     </div>

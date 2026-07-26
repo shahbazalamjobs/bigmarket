@@ -65,6 +65,7 @@ const authSlice = createSlice({
       // LOGIN PENDING
 
       .addCase(login.pending, (state) => {
+        console.log("Login pending");
         state.isLoading = true;
         state.error = null;
       })

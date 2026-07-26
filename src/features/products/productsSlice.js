@@ -4,18 +4,16 @@ import {
   fetchProducts,
   fetchProductById,
   fetchCategories,
-  fetchProductsByCategory as fetchProductsByCategoryAPI,
-  searchProducts as searchProductsAPI,
 } from "./productsAPI";
 
 const initialState = {
-  allProducts: [], // Original products
-  products: [], // Products displayed on Products page
+  // All products fetched once
+  allProducts: [],
 
   categories: [],
-  categoryProducts: [],
   selectedProduct: null,
 
+  // Filters
   selectedCategory: "all",
   searchQuery: "",
   sortBy: "default",
@@ -23,18 +21,17 @@ const initialState = {
   maxPrice: "",
   minRating: 0,
 
+  // Pagination
   currentPage: 1,
   limit: 12,
-  totalProducts: 0,
 
   isLoading: false,
-
   error: null,
 };
 
+// Fetch all products once
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
-
   async (_, thunkAPI) => {
     try {
       const data = await fetchProducts(1, 500);
@@ -43,59 +40,6 @@ export const getAllProducts = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.message || "Failed to fetch products",
-      );
-    }
-  },
-);
-
-export const fetchCatalog = createAsyncThunk(
-  "products/fetchCatalog",
-
-  async (_, thunkAPI) => {
-    try {
-      const state = thunkAPI.getState().products;
-
-      const { currentPage, limit, searchQuery, selectedCategory } = state;
-
-      let data;
-
-      // SEARCH
-      if (searchQuery.trim() !== "") {
-        data = await searchProductsAPI(searchQuery, currentPage, limit);
-
-        return {
-          products: data.products,
-          total: data.total,
-          page: currentPage,
-        };
-      }
-
-      // CATEGORY
-      if (selectedCategory !== "all") {
-        data = await fetchProductsByCategoryAPI(
-          selectedCategory,
-          currentPage,
-          limit,
-        );
-
-        return {
-          products: data.products,
-          total: data.total,
-          page: currentPage,
-        };
-      }
-
-      // NORMAL PAGINATION
-      data = await fetchProducts(currentPage, limit);
-
-      return {
-        products: data.products,
-        total: data.total,
-        page: currentPage,
-      };
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.message || "Failed to fetch catalog",
       );
     }
   },
@@ -112,22 +56,6 @@ export const getProductById = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.message || "Failed to fetch product",
-      );
-    }
-  },
-);
-
-export const fetchProductsByCategory = createAsyncThunk(
-  "products/fetchProductsByCategory",
-
-  async (category, thunkAPI) => {
-    try {
-      const data = await fetchProductsByCategoryAPI(category);
-
-      return data.products;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.message || "Failed to fetch category products",
       );
     }
   },
@@ -184,7 +112,6 @@ const productsSlice = createSlice({
     },
 
     clearProducts(state) {
-      state.products = [];
       state.allProducts = [];
     },
 
@@ -210,38 +137,11 @@ const productsSlice = createSlice({
 
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.isLoading = false;
-
         state.allProducts = action.payload;
       })
 
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
-      });
-
-    // -----------------------------
-    // Fetch Catalog
-    // -----------------------------
-
-    builder
-      .addCase(fetchCatalog.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-
-      .addCase(fetchCatalog.fulfilled, (state, action) => {
-        state.isLoading = false;
-
-        state.products = action.payload.products;
-
-        state.totalProducts = action.payload.total;
-
-        state.currentPage = action.payload.page;
-      })
-
-      .addCase(fetchCatalog.rejected, (state, action) => {
-        state.isLoading = false;
-
         state.error = action.payload;
       });
 
@@ -281,25 +181,6 @@ const productsSlice = createSlice({
       })
 
       .addCase(getCategories.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-
-    // -----------------------------
-    // Fetch Products by Categories
-    // -----------------------------
-
-    builder
-      .addCase(fetchProductsByCategory.pending, (state) => {
-        state.isLoading = true;
-      })
-
-      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.categoryProducts = action.payload;
-      })
-
-      .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

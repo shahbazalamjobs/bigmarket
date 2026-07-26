@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  fetchCatalog,
   setCurrentPage,
   setSelectedCategory,
 } from "../../features/products/productsSlice";
@@ -24,7 +23,6 @@ function ProductFilters() {
   const handleCategoryChange = (category) => {
     dispatch(setSelectedCategory(category));
     dispatch(setCurrentPage(1));
-    dispatch(fetchCatalog());
   };
 
   return (
