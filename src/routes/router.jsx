@@ -1,5 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
@@ -15,6 +15,7 @@ const Checkout = lazy(() => import("../pages/Checkout"));
 const Login = lazy(() => import("../pages/Login"));
 const Profile = lazy(() => import("../pages/Profile"));
 const Orders = lazy(() => import("../pages/Orders"));
+const OrderSuccess = lazy(() => import("../pages/OrderSuccess"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const router = createBrowserRouter([
@@ -75,6 +76,11 @@ const router = createBrowserRouter([
           {
             path: "checkout",
             element: <Checkout />,
+          },
+
+          {
+            path: "order-success",
+            element: <OrderSuccess />,
           },
         ],
       },
