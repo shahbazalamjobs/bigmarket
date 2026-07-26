@@ -2,7 +2,15 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ShoppingCart, Heart, User, LogOut, Menu, X } from "lucide-react";
+import {
+  ShoppingCart,
+  Heart,
+  User,
+  Package,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
@@ -13,9 +21,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const [mobileMenu, setMobileMenu] = useState(false);
-
   const [desktopProfileOpen, setDesktopProfileOpen] = useState(false);
-
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -41,24 +47,20 @@ function Navbar() {
   const navLinkClass = ({ isActive }) =>
     isActive
       ? "font-semibold text-violet-600"
-      : "text-gray-700 hover:text-violet-600";
+      : "text-gray-700 transition hover:text-violet-600";
 
   return (
-    <header className="border-b bg-white shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        {/* Logo */}
-
+    <header className="sticky top-0 z-50 border-b bg-white/95 shadow-sm backdrop-blur">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
         <Link to="/">
           <img
-            src="public\bigmarket-logo.png"
+            src="/bigmarket-logo.png"
             alt="BigMarket"
             className="h-16 w-auto object-contain"
           />
         </Link>
 
-        {/* Desktop Navigation */}
-
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           <NavLink to="/" className={navLinkClass}>
             Home
           </NavLink>
@@ -67,35 +69,37 @@ function Navbar() {
             Products
           </NavLink>
 
-          {/* Cart */}
-
           <Link
             to="/cart"
-            className="relative flex h-10 w-10 items-center justify-center rounded-lg hover:bg-gray-100"
+            className="relative flex h-11 w-11 items-center justify-center rounded-xl transition hover:bg-gray-100"
           >
-            <ShoppingCart size={24} />
+            <ShoppingCart size={23} />
 
             {totalQuantity > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs text-white">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs text-white">
                 {totalQuantity}
               </span>
             )}
           </Link>
 
-          {/* Wishlist */}
-
-          <Link to="/wishlist" className="relative">
-            <Heart size={24} />
+          <Link
+            to="/wishlist"
+            className="relative flex h-11 w-11 items-center justify-center rounded-xl transition hover:bg-gray-100"
+          >
+            <Heart size={23} />
 
             {wishlistCount > 0 && (
-              <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {wishlistCount}
               </span>
             )}
           </Link>
 
           {!isAuthenticated ? (
-            <NavLink to="/login" className={navLinkClass}>
+            <NavLink
+              to="/login"
+              className="rounded-xl bg-violet-600 px-5 py-2 text-white transition hover:bg-violet-700"
+            >
               Login
             </NavLink>
           ) : (
@@ -104,34 +108,39 @@ function Navbar() {
               onOpenChange={setDesktopProfileOpen}
             >
               <PopoverTrigger asChild>
-                <button className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-gray-100">
+                <button className="flex items-center gap-3 rounded-xl px-3 py-2 transition hover:bg-gray-100">
                   <img
                     src={user?.image}
                     alt={user?.firstName}
-                    className="h-9 w-9 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover"
                   />
 
                   <span className="font-medium">{user?.firstName}</span>
                 </button>
               </PopoverTrigger>
 
-              <PopoverContent align="end" className="w-56">
+              <PopoverContent align="end" className="w-56 rounded-xl p-2">
                 <button
-                  onClick={() => {
-                    setDesktopProfileOpen(false);
-                    navigate("/profile");
-                  }}
-                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 hover:bg-gray-100"
+                  onClick={() => navigate("/profile")}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-3 transition hover:bg-gray-100"
                 >
-                  <User size={16} />
+                  <User size={17} />
                   Profile
                 </button>
 
                 <button
-                  onClick={handleLogout}
-                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-red-600 hover:bg-red-50"
+                  onClick={() => navigate("/orders")}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-3 transition hover:bg-gray-100"
                 >
-                  <LogOut size={16} />
+                  <Package size={17} />
+                  Orders
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-red-600 transition hover:bg-red-50"
+                >
+                  <LogOut size={17} />
                   Logout
                 </button>
               </PopoverContent>
@@ -139,11 +148,7 @@ function Navbar() {
           )}
         </nav>
 
-        {/* Mobile Right Side */}
-
         <div className="flex items-center gap-3 md:hidden">
-          {/* Mobile Profile */}
-
           {isAuthenticated && (
             <Popover
               open={mobileProfileOpen}
@@ -154,18 +159,15 @@ function Navbar() {
                   <img
                     src={user?.image}
                     alt={user?.firstName}
-                    className="h-9 w-9 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover"
                   />
                 </button>
               </PopoverTrigger>
 
-              <PopoverContent align="end" className="w-52">
+              <PopoverContent align="end" className="w-52 rounded-xl p-2">
                 <button
-                  onClick={() => {
-                    setMobileProfileOpen(false);
-                    navigate("/profile");
-                  }}
-                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 hover:bg-gray-100"
+                  onClick={() => navigate("/profile")}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-3 hover:bg-gray-100"
                 >
                   <User size={16} />
                   Profile
@@ -173,7 +175,7 @@ function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-red-600 hover:bg-red-50"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-red-600 hover:bg-red-50"
                 >
                   <LogOut size={16} />
                   Logout
@@ -182,19 +184,18 @@ function Navbar() {
             </Popover>
           )}
 
-          {/* Hamburger */}
-
-          <button onClick={() => setMobileMenu(!mobileMenu)}>
+          <button
+            onClick={() => setMobileMenu(!mobileMenu)}
+            className="rounded-xl p-2 transition hover:bg-gray-100"
+          >
             {mobileMenu ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-
       {mobileMenu && (
-        <div className="border-t px-4 py-4 md:hidden">
-          <nav className="flex flex-col gap-4">
+        <div className="border-t px-4 py-5 md:hidden">
+          <nav className="flex flex-col gap-5">
             <NavLink
               to="/"
               onClick={() => setMobileMenu(false)}
@@ -220,9 +221,9 @@ function Navbar() {
             </Link>
 
             {!isAuthenticated && (
-              <NavLink to="/login" onClick={() => setMobileMenu(false)}>
+              <Link to="/login" onClick={() => setMobileMenu(false)}>
                 Login
-              </NavLink>
+              </Link>
             )}
           </nav>
         </div>

@@ -1,3 +1,5 @@
+import { forwardRef, useImperativeHandle } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -55,7 +57,7 @@ const fields = [
   },
 ];
 
-function ShippingForm({ onSubmit }) {
+const ShippingForm = forwardRef((props, ref) => {
   const {
     register,
     handleSubmit,
@@ -75,14 +77,17 @@ function ShippingForm({ onSubmit }) {
     },
   });
 
+  useImperativeHandle(ref, () => ({
+    submit(onValid) {
+      handleSubmit(onValid)();
+    },
+  }));
+
   return (
     <div className="rounded-xl border p-6 shadow-sm">
       <h2 className="mb-6 text-2xl font-semibold">Shipping Address</h2>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid gap-5 md:grid-cols-2"
-      >
+      <form className="grid gap-5 md:grid-cols-2">
         {fields.map((field) => (
           <div
             key={field.name}
@@ -100,23 +105,16 @@ function ShippingForm({ onSubmit }) {
 
             {errors[field.name] && (
               <p className="mt-1 text-sm text-red-500">
-                {errors[field.name]?.message}
+                {errors[field.name].message}
               </p>
             )}
           </div>
         ))}
-
-        <div className="md:col-span-2">
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-violet-600 py-3 font-medium text-white transition hover:bg-violet-700"
-          >
-            Save Shipping Information
-          </button>
-        </div>
       </form>
     </div>
   );
-}
+});
+
+ShippingForm.displayName = "ShippingForm";
 
 export default ShippingForm;

@@ -162,7 +162,7 @@ function Products() {
 
       {error && <p className="text-red-600">{error}</p>}
 
-      <div className="grid gap-8 lg:grid-cols-4">
+      <div className="grid gap-5 lg:grid-cols-4">
         <aside className="space-y-6">
           <ProductFilters />
 

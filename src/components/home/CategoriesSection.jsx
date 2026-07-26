@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 function CategoriesSection() {
   const { categories } = useSelector((state) => state.products);
@@ -18,9 +19,7 @@ function CategoriesSection() {
 
     mediaQuery.addEventListener("change", handleResize);
 
-    return () => {
-      mediaQuery.removeEventListener("change", handleResize);
-    };
+    return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
   const visibleCategories = isMobile
@@ -29,24 +28,30 @@ function CategoriesSection() {
 
   return (
     <section className="w-full">
-      <div className="mb-6 space-y-2">
-        <h2 className="text-2xl font-bold sm:text-3xl">Shop By Category</h2>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h2 className="text-3xl font-bold">Shop By Category</h2>
 
-        <p className="text-sm text-gray-600 sm:text-base">
-          Explore products by category
-        </p>
+          <p className="mt-2 text-gray-500">
+            Explore products from your favorite categories
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {visibleCategories.map((category) => (
           <Link
             key={category.slug}
             to={`/products/category/${category.slug}`}
-            className="flex min-h-16 items-center justify-center rounded-xl border bg-white p-4 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6"
+            className="group flex items-center justify-between rounded-2xl border bg-gradient-to-br from-white to-gray-50 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-lg"
           >
-            <h3 className="text-base font-semibold capitalize sm:text-lg">
+            <h3 className="text-lg font-semibold capitalize transition-colors group-hover:text-violet-600">
               {category.name}
             </h3>
+
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-600 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-violet-600 group-hover:text-white">
+              <ArrowRight size={18} />
+            </div>
           </Link>
         ))}
       </div>

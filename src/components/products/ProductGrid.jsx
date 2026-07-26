@@ -23,7 +23,7 @@ function ProductGrid({ products, loading }) {
     <div
       className="
       grid
-      gap-6
+      gap-4
       sm:grid-cols-2
       lg:grid-cols-3
     "

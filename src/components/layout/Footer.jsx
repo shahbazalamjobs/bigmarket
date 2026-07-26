@@ -1,140 +1,146 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { ChevronRight, Mail, MapPin, Phone } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 import Container from "./Container";
 
 function Footer() {
   return (
-    <footer className="mt-10 border-t bg-gray-100 py-10">
+    <footer className="mt-20 border-t bg-gray-50">
       <Container>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
+        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link to="/">
               <img
-                src="public\bigmarket-logo.png"
+                src="/bigmarket-logo.png"
                 alt="BigMarket"
-                className="h-16 w-auto object-contain"
+                className="h-16 w-auto"
               />
             </Link>
 
-            <p className="mt-3 text-sm leading-6 text-gray-600">
+            <p className="mt-5 text-sm leading-7 text-gray-600">
               Your one-stop destination for quality products, amazing deals, and
               a seamless shopping experience.
             </p>
 
-            <div className="mt-4 space-y-2 text-sm text-gray-600">
-              <p className="flex items-center gap-2">
-                <Mail size={16} />
-                support@bigmarket.com
-              </p>
+            <div className="mt-6 space-y-3 text-sm text-gray-600">
+              <div className="flex items-center gap-3">
+                <Mail size={16} className="text-violet-600" />
+                <span>support@bigmarket.com</span>
+              </div>
 
-              <p className="flex items-center gap-2">
-                <Phone size={16} />
-                +1 234 567 890
-              </p>
+              <div className="flex items-center gap-3">
+                <Phone size={16} className="text-violet-600" />
+                <span>+1 234 567 890</span>
+              </div>
 
-              <p className="flex items-center gap-2">
-                <MapPin size={16} />
-                New York, USA
-              </p>
+              <div className="flex items-center gap-3">
+                <MapPin size={16} className="text-violet-600" />
+                <span>New York, USA</span>
+              </div>
             </div>
           </div>
 
-          {/* Shop */}
           <div>
-            <h3 className="mb-4 font-semibold">Shop</h3>
+            <h3 className="mb-5 text-lg font-semibold">Shop</h3>
 
-            <ul className="space-y-3 text-sm text-gray-600">
+            <ul className="space-y-4">
               <li>
-                <Link to="/products" className="hover:text-violet-600">
+                <Link to="/products" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   All Products
                 </Link>
               </li>
 
               <li>
-                <Link to="/products" className="hover:text-violet-600">
+                <Link to="/products" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   New Arrivals
                 </Link>
               </li>
 
               <li>
-                <Link to="/cart" className="hover:text-violet-600">
+                <Link to="/cart" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   Shopping Cart
                 </Link>
               </li>
 
               <li>
-                <Link to="/wishlist" className="hover:text-violet-600">
+                <Link to="/wishlist" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   Wishlist
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Service */}
           <div>
-            <h3 className="mb-4 font-semibold">Customer Service</h3>
+            <h3 className="mb-5 text-lg font-semibold">Customer Service</h3>
 
-            <ul className="space-y-3 text-sm text-gray-600">
+            <ul className="space-y-4">
               <li>
-                <Link to="/profile" className="hover:text-violet-600">
+                <Link to="/profile" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   My Account
                 </Link>
               </li>
 
               <li>
-                <Link to="/orders" className="hover:text-violet-600">
+                <Link to="/orders" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   Order History
                 </Link>
               </li>
 
               <li>
-                <a href="#" className="hover:text-violet-600">
+                <a href="#" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   Shipping Policy
                 </a>
               </li>
 
               <li>
-                <a href="#" className="hover:text-violet-600">
+                <a href="#" className="flex items-center gap-2 text-gray-600 transition hover:text-violet-600">
+                  <ChevronRight size={15} />
                   Return Policy
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Social */}
           <div>
-            <h3 className="mb-3 font-semibold">Follow Us</h3>
+            <h3 className="mb-5 text-lg font-semibold">Follow Us</h3>
 
-            <div className="flex gap-4">
-              <a href="#" className="text-gray-600 hover:text-violet-600">
-                <FaFacebook size={22} />
+            <p className="mb-5 text-sm leading-6 text-gray-600">
+              Follow us on social media to stay updated with our latest offers.
+            </p>
+
+            <div className="flex gap-3">
+              <a href="#" className="flex h-11 w-11 items-center justify-center rounded-full border text-gray-600 transition hover:border-violet-600 hover:bg-violet-600 hover:text-white">
+                <FaFacebookF size={18} />
               </a>
 
-              <a href="#" className="text-gray-600 hover:text-pink-600">
-                <FaInstagram size={22} />
+              <a href="#" className="flex h-11 w-11 items-center justify-center rounded-full border text-gray-600 transition hover:border-violet-600 hover:bg-violet-600 hover:text-white">
+                <FaInstagram size={18} />
               </a>
 
-              <a href="#" className="text-gray-600 hover:text-violet-400">
-                <FaTwitter size={22} />
+              <a href="#" className="flex h-11 w-11 items-center justify-center rounded-full border text-gray-600 transition hover:border-violet-600 hover:bg-violet-600 hover:text-white">
+                <FaTwitter size={18} />
               </a>
             </div>
           </div>
         </div>
 
-        <hr className="my-8" />
-
-        <div className="flex flex-col items-center justify-between gap-3 text-sm text-gray-500 md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-4 border-t py-6 text-sm text-gray-500 md:flex-row">
           <p>© {new Date().getFullYear()} BigMarket. All rights reserved.</p>
 
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-violet-600">
+          <div className="flex gap-6">
+            <a href="#" className="transition hover:text-violet-600">
               Privacy Policy
             </a>
 
-            <a href="#" className="hover:text-violet-600">
+            <a href="#" className="transition hover:text-violet-600">
               Terms & Conditions
             </a>
           </div>
