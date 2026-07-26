@@ -17,7 +17,13 @@ function CategoryProducts() {
   );
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory(category));
+    dispatch(
+      fetchProductsByCategory({
+        category,
+        page: 1,
+        limit: 12,
+      }),
+    );
   }, [dispatch, category]);
 
   if (isLoading) {

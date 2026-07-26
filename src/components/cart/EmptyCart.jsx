@@ -3,18 +3,23 @@ import { Link } from "react-router-dom";
 
 function EmptyCart() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border py-20 text-center">
-      <ShoppingCart size={70} className="mb-5 text-gray-400" />
+    <div className="flex min-h-[450px] flex-col items-center justify-center rounded-2xl border bg-white p-8 text-center shadow-sm">
+      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-violet-100 text-violet-600">
+        <ShoppingCart size={45} />
+      </div>
 
-      <h2 className="text-3xl font-bold">Your cart is empty</h2>
+      <h2 className="mt-6 text-3xl font-bold">
+        Your cart is empty
+      </h2>
 
-      <p className="mt-2 text-gray-500">
-        Looks like you haven't added any products yet.
+      <p className="mt-3 max-w-md text-gray-500">
+        Looks like you haven't added any products yet. Explore our collection
+        and find something you love.
       </p>
 
       <Link
         to="/products"
-        className="mt-8 rounded-lg bg-violet-600 px-6 py-3 font-medium text-white transition hover:bg-violet-700"
+        className="mt-8 rounded-xl bg-violet-600 px-8 py-3 font-medium text-white transition hover:bg-violet-700"
       >
         Browse Products
       </Link>
