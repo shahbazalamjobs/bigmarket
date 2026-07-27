@@ -36,9 +36,9 @@ Traditional frontend tutorials often focus only on UI implementation. BigMarket 
 
 > Add 2–3 screenshots or a short GIF showcasing the homepage, product page, and checkout flow.
 
-![Home Page](screencapture-bigmarkets-netlify-app-2026-07-27-13_20_03-1.png)
-![Products Page](screencapture-bigmarkets-netlify-app-products-2026-07-27-13_22_23.png)
-![Cart Page](screencapture-bigmarkets-netlify-app-cart-2026-07-27-13_27_33.png)
+![Home Page](public/prod-images/screencapture-bigmarkets-netlify-app-2026-07-27-13_20_03-1.png)
+![Products Page](public/prod-images/screencapture-bigmarkets-netlify-app-products-2026-07-27-13_22_23.png)
+![Cart Page](public/prod-images/screencapture-bigmarkets-netlify-app-cart-2026-07-27-13_27_33.png)
 ---
 
 ## Features
@@ -117,7 +117,6 @@ Traditional frontend tutorials often focus only on UI implementation. BigMarket 
 ```text
 src
 ├── api
-├── app
 ├── components
 ├── features
 ├── hooks
